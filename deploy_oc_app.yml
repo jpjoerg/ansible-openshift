@@ -1,6 +1,6 @@
 ---
 - name: Deploy OpenShift Project
-  host: localhost
+  hosts: localhost
   connection: local
   gather_facts: false
 
