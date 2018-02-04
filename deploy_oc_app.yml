@@ -7,6 +7,7 @@
   vars:
     project_name: ""
     project_dname: ""
+    oc_host: ""
     oc_token: ""
     app_name: ""
     app_source: ""
@@ -15,7 +16,7 @@
     - name: Create Openshift Project
       oc:
         state: present
-        host: openshift.bizotdc.tech
+        host: "{{ oc_host }}"
         validate_certs: false
         inline:
           kind: ProjectRequest
