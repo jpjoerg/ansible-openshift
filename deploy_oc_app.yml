@@ -1,0 +1,41 @@
+---
+- name: Deploy OpenShift Project
+  host: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    project_name: ""
+    project_dname: ""
+    oc_token: ""
+    app_name: ""
+    app_source: ""
+
+  tasks:
+    - name: Create Openshift Project
+      oc: 
+        state: present
+        inline:
+          kind: ProjectRequest
+          metadata:
+            name: "{{ project_name}}"
+          displayName: "{{ project_dname }}"
+          description: This project was created using Ansible
+      token: "{{ oc_token }}"
+
+    - name: "Move to {{ project_name }}"
+      shell: "oc project {{ project_name }}"
+      args:
+        creates: "/tmp/{{ project_name }}.log"
+
+    - name: "Create new app on project {{ project_name }}"
+      shell: "oc new-app --name={{ app_name }} openshift/php:5.6~{{ app_source }}"
+      args:
+        creates: "/tmp/{{ app_name }}.log"
+
+    - name: "Expose {{ app_name }}"
+      shell: "oc expose service {{ app_name }}"
+      args: 
+        creates: "/tmp/{{ app_name }}-expose.log"
+      
+        
