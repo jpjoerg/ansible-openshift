@@ -15,6 +15,7 @@
     - name: Create Openshift Project
       oc: 
         state: present
+        host: https://openshift.bizotdc.tech:8443
         inline:
           kind: ProjectRequest
           metadata:
@@ -23,19 +24,19 @@
           description: This project was created using Ansible
         token: "{{ oc_token }}"
 
-    - name: "Move to {{ project_name }}"
-      shell: "oc project {{ project_name }}"
+    - name: Move to "{{ project_name }}"
+      shell: oc project "{{ project_name }}"
       args:
         creates: "/tmp/{{ project_name }}.log"
 
-    - name: "Create new app on project {{ project_name }}"
-      shell: "oc new-app --name={{ app_name }} openshift/php:5.6~{{ app_source }}"
+    - name: Create new app on project "{{ project_name }}"
+      shell: oc new-app --name={{ app_name }} openshift/php:5.6~"{{ app_source }}"
       args:
-        creates: "/tmp/{{ app_name }}.log"
+        creates: /tmp/"{{ app_name }}".log
 
-    - name: "Expose {{ app_name }}"
-      shell: "oc expose service {{ app_name }}"
+    - name: Expose "{{ app_name }}"
+      shell: oc expose service "{{ app_name }}"
       args: 
-        creates: "/tmp/{{ app_name }}-expose.log"
+        creates: /tmp/"{{ app_name }}"-expose.log
       
         
