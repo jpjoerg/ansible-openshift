@@ -21,7 +21,7 @@
             name: "{{ project_name}}"
           displayName: "{{ project_dname }}"
           description: This project was created using Ansible
-      token: "{{ oc_token }}"
+        token: "{{ oc_token }}"
 
     - name: "Move to {{ project_name }}"
       shell: "oc project {{ project_name }}"
