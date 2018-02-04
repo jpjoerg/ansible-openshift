@@ -27,6 +27,6 @@
         token: "{{ oc_token }}"
 
     - name: Create new app "{{ project_name }} and exposed it"
-      shell: oc login https://"{{ oc_host }}":8443 --token="{{ oc_token}}" && oc project "{{ project_name }}" && oc new-app --name={{ app_name }} openshift/php:5.6~"{{ app_source }}" && oc expose service "{{ app_name }}"
+      shell: oc login https://"{{ oc_host }}":8443 --token="{{ oc_token}}" --insecure-skip-tls-verify=false && oc project "{{ project_name }}" && oc new-app --name={{ app_name }} openshift/php:5.6~"{{ app_source }}" && oc expose service "{{ app_name }}"
       args:
         creates: /tmp/"{{ app_name }}".log
